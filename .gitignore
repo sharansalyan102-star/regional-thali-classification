@@ -1,0 +1,14 @@
+﻿__pycache__/
+*.pyc
+venv/
+.venv/
+
+Dataset1/
+split_dataset/
+outputs/
+
+*.pth
+*.pt
+
+uploads/
+.env
