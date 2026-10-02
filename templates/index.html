@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regional Thali Classification | AI-Powered Indian Cuisine Recognition</title>
+    <meta name="description" content="AI-Powered Indian Cuisine Recognition for Bengali Thali, Kerala Sadhya, and Rajasthani Thali using EfficientNet-B0 and Binary V3 Food Gate.">
+    
+    <!-- Google Fonts: Outfit, Inter, and Caveat (for calligraphy handwritten notes) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- AMBIENT BACKGROUND FOOD DECORATIONS (FOOD IMAGES ON EDGES) -->
+    <div class="bg-decor-wrapper" aria-hidden="true">
+        <!-- Top Right Overhead Thali Feast -->
+        <div class="bg-decor bg-decor-top-right">
+            <img src="{{ url_for('static', filename='images/bg_thali_right.jpg') }}" alt="Background Thali Feast">
+            <div class="bg-decor-overlay"></div>
+        </div>
+
+        <!-- Left Spices & Herbs Edge -->
+        <div class="bg-decor bg-decor-left">
+            <img src="{{ url_for('static', filename='images/bg_spices_left.jpg') }}" alt="Background Indian Spices">
+            <div class="bg-decor-overlay"></div>
+        </div>
+
+        <!-- Right Middle Edge Thali -->
+        <div class="bg-decor bg-decor-right-mid">
+            <img src="{{ url_for('static', filename='images/hero_thali.jpg') }}" alt="Background Thali">
+            <div class="bg-decor-overlay"></div>
+        </div>
+
+        <!-- Lower Left Edge Sadhya Feast -->
+        <div class="bg-decor bg-decor-lower-left">
+            <img src="{{ url_for('static', filename='images/kerala_sadhya.jpg') }}" alt="Background Sadhya Feast">
+            <div class="bg-decor-overlay"></div>
+        </div>
+
+        <!-- Lower Right Edge Rajasthani Cuisine -->
+        <div class="bg-decor bg-decor-lower-right">
+            <img src="{{ url_for('static', filename='images/rajasthani_thali.jpg') }}" alt="Background Rajasthani Thali">
+            <div class="bg-decor-overlay"></div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="brand">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="9"/>
+                        <circle cx="12" cy="12" r="5"/>
+                        <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+                        <circle cx="16" cy="8" r="1.5" fill="currentColor"/>
+                        <circle cx="12" cy="16" r="1.5" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">Regional Thali Classification</span>
+                    <span class="brand-subtitle">AI-Powered Indian Cuisine Recognition</span>
+                </div>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#classify" class="nav-link">Classify</a>
+                <a href="#about" class="nav-link">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN HERO SECTION -->
+    <section id="home" class="hero-section">
+
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Discover India’s <br>
+                    <span class="text-saffron">Regional Thalis</span>
+                </h1>
+                
+                <p class="hero-description">
+                    Upload a thali image and let our AI model identify its regional cuisine.
+                </p>
+                
+                <div class="hero-actions">
+                    <a href="#classify" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <span>Classify a Thali</span>
+                    </a>
+                    <a href="#about" class="btn btn-outline">
+                        <span>About Model</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </a>
+                </div>
+
+                <div class="hero-indicators">
+                    <div class="indicator-item">
+                        <span class="indicator-icon">🌾</span>
+                        <span>Authentic Indian Cuisines</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span class="indicator-icon">🧠</span>
+                        <span>AI-Powered Analysis</span>
+                    </div>
+                    <div class="indicator-item">
+                        <span class="indicator-icon">⭐</span>
+                        <span>Fast & Accurate Results</span>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- CLASSIFICATION / UPLOAD CARD SECTION -->
+    <section id="classify" class="classify-section">
+        
+
+        <div class="section-container">
+            <div class="classify-card">
+                <div class="card-header-center">
+                    <h2 class="classify-title">Identify Your Thali</h2>
+                    <p class="classify-subtitle">Upload a clear image of a Bengali Thali, Kerala Sadhya, or Rajasthani Thali.</p>
+                </div>
+
+                <!-- TWO-COLUMN UPLOAD AREA -->
+                <div class="upload-grid">
+                    
+                    <!-- LEFT: Drag & Drop Zone -->
+                    <div id="drop-zone" class="dropzone">
+                        <input type="file" id="file-input" accept="image/jpeg,image/png,image/jpg,image/webp" hidden>
+                        <div class="dropzone-content">
+                            <div class="upload-icon-box">
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                            </div>
+                            <h3 class="upload-prompt-title">Drag & drop your image here</h3>
+                            <span class="upload-divider-text">or</span>
+                            <button id="browse-btn" type="button" class="btn btn-primary btn-sm">Browse from your device</button>
+                            <span class="upload-formats">Supported formats: JPG, JPEG, PNG</span>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Image Preview Panel -->
+                    <div class="preview-panel">
+                        <!-- Empty Placeholder State -->
+                        <div id="empty-preview-state" class="empty-preview">
+                            <div class="placeholder-icon">
+                                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                </svg>
+                            </div>
+                            <span class="placeholder-title">No image selected</span>
+                            <span class="placeholder-sub">Image preview will appear here</span>
+                        </div>
+
+                        <!-- Active Image Preview Container -->
+                        <div id="active-preview-state" class="active-preview hidden">
+                            <div class="preview-img-box">
+                                <img id="image-preview" src="" alt="Selected Thali Preview">
+                            </div>
+                            <div class="preview-meta">
+                                <span id="preview-filename" class="preview-filename">image.jpg</span>
+                            </div>
+                            <div class="preview-btn-row">
+                                <button id="classify-btn" type="button" class="btn btn-primary btn-full">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    </svg>
+                                    <span>Classify Image</span>
+                                </button>
+                                <button id="remove-btn" type="button" class="btn btn-secondary btn-sm">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    <span>Remove</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- LOADING STATE -->
+                <div id="loading-state" class="loading-state hidden">
+                    <div class="loading-spinner"></div>
+                    <h3 class="loading-title">Analyzing image...</h3>
+                    <p class="loading-steps">Evaluating Stage 1 Binary Food Gate & Stage 2 Regional Classification Confidence</p>
+                </div>
+
+            </div>
+
+            <!-- RESULT SECTION -->
+            <div id="result-container" class="result-container hidden">
+                
+                <!-- STAGE 1 NON-FOOD REJECTION CARD -->
+                <div id="non-food-alert" class="card result-status-card non-food-card hidden">
+                    <div class="status-icon">🚫</div>
+                    <div class="status-content">
+                        <div class="status-header">
+                            <h2 id="non-food-title" class="status-title">Not a Recognized Thali</h2>
+                            <span id="non-food-badge" class="pill-badge pill-warning">Food Likelihood: 43.7%</span>
+                        </div>
+                        <p id="non-food-message" class="status-message">
+                            This image does not appear to be a recognized thali. Please upload a clear image of a Bengali Thali, Kerala Sadhya, or Rajasthani Thali.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- STAGE 2 LOW CONFIDENCE REJECTION CARD -->
+                <div id="low-confidence-alert" class="card result-status-card low-confidence-card hidden">
+                    <div class="status-icon">⚠️</div>
+                    <div class="status-content">
+                        <div class="status-header">
+                            <h2 id="low-confidence-title" class="status-title">Low Classification Confidence</h2>
+                            <span id="low-confidence-badge" class="pill-badge pill-warning">Uncertain Prediction (&lt; 80% Confidence)</span>
+                        </div>
+                        <p id="low-confidence-message" class="status-message">
+                            The image may contain food, but the model is not confident enough to identify the regional thali.
+                        </p>
+                        <p class="status-submessage">
+                            Please upload a clearer image showing the complete thali.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- GENUINE PREDICTION RESULT -->
+                <div id="prediction-result" class="prediction-grid">
+                    
+                    <!-- Prediction / Breakdown Card -->
+                    <div class="card result-card">
+                        <div class="card-top">
+                            <span class="card-section-label">PREDICTION RESULT</span>
+                            <span id="confidence-badge" class="pill-badge pill-success">Confidence: 96.4%</span>
+                        </div>
+                        <h2 id="predicted-class-name" class="predicted-main-title">Kerala Sadhya</h2>
+                        <p id="predicted-region" class="predicted-region-text">Region: Kerala & South India</p>
+
+                        <!-- Confidence Breakdown Progress Bars -->
+                        <div class="probability-breakdown">
+                            <h4 class="breakdown-title">CONFIDENCE BREAKDOWN</h4>
+
+                            <!-- Bengali Thali -->
+                            <div class="prob-item" data-class="Bengali Thali">
+                                <div class="prob-info">
+                                    <span class="prob-label">Bengali Thali</span>
+                                    <span id="prob-bengali-val" class="prob-val">1.8%</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div id="prob-bengali-bar" class="progress-bar-fill" style="width: 1.8%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Kerala Sadhya -->
+                            <div class="prob-item" data-class="Kerala Sadhya">
+                                <div class="prob-info">
+                                    <span class="prob-label">Kerala Sadhya</span>
+                                    <span id="prob-kerala-val" class="prob-val">96.4%</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div id="prob-kerala-bar" class="progress-bar-fill" style="width: 96.4%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Rajasthani Thali -->
+                            <div class="prob-item" data-class="Rajasthani Thali">
+                                <div class="prob-info">
+                                    <span class="prob-label">Rajasthani Thali</span>
+                                    <span id="prob-rajasthani-val" class="prob-val">1.8%</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div id="prob-rajasthani-bar" class="progress-bar-fill" style="width: 1.8%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Culinary Information Card (Only shown for confident predictions >= 70%) -->
+                    <div id="thali-info-card" class="card info-card">
+                        <h3 class="info-card-title">About this Cuisine</h3>
+                        
+                        <div class="info-block">
+                            <label class="info-block-label">Description</label>
+                            <p id="info-description" class="info-block-text">Traditional feast served on a banana leaf...</p>
+                        </div>
+
+                        <div class="info-block">
+                            <label class="info-block-label">Common Ingredients</label>
+                            <div id="info-ingredients" class="pills-flex"></div>
+                        </div>
+
+                        <div class="info-block">
+                            <label class="info-block-label">Typical Dishes</label>
+                            <div id="info-dishes" class="pills-flex"></div>
+                        </div>
+
+                        <div class="info-block">
+                            <label class="info-block-label">Cuisine Characteristics</label>
+                            <p id="info-characteristics" class="info-block-text"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION: HOW IT WORKS -->
+    <section id="how-it-works" class="workflow-section">
+        <div class="section-container">
+            <div class="section-header-center">
+                <h2 class="section-main-title">How It Works</h2>
+            </div>
+
+            <div class="steps-grid">
+                
+                <!-- Step 01 -->
+                <div class="step-card">
+                    <div class="step-badge">01</div>
+                    <div class="step-icon-wrapper">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    </div>
+                    <h3 class="step-title">Upload</h3>
+                    <p class="step-desc">Upload a thali image from your device.</p>
+                </div>
+
+                <div class="step-arrow">➔</div>
+
+                <!-- Step 02 -->
+                <div class="step-card">
+                    <div class="step-badge">02</div>
+                    <div class="step-icon-wrapper">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    </div>
+                    <h3 class="step-title">Analyze</h3>
+                    <p class="step-desc">AI checks whether the image is a valid thali.</p>
+                </div>
+
+                <div class="step-arrow">➔</div>
+
+                <!-- Step 03 -->
+                <div class="step-card">
+                    <div class="step-badge">03</div>
+                    <div class="step-icon-wrapper">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    </div>
+                    <h3 class="step-title">Identify</h3>
+                    <p class="step-desc">Get the regional thali prediction with confidence.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: ABOUT THE MODEL (3-COLUMN BOTTOM LAYOUT) -->
+    <section id="about" class="about-section">
+        <div class="section-container">
+            
+            <div class="bottom-three-grid">
+                
+                <!-- Left Column: About the Model -->
+                <div class="bottom-card model-info-card">
+                    <div class="bottom-card-header">
+                        <div class="bottom-card-icon-box">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                        </div>
+                        <div class="bottom-card-header-text">
+                            <h3 class="bottom-card-title">About the Model</h3>
+                            <span class="bottom-card-sub">EfficientNet-B0</span>
+                            <span class="bottom-card-desc">Regional Indian Thali Classification</span>
+                        </div>
+                    </div>
+                    
+                    <div class="model-stats-row">
+                        <div class="model-stat-box">
+                            <span class="model-stat-num">3</span>
+                            <span class="model-stat-label">Classes</span>
+                        </div>
+                        <div class="model-stat-box">
+                            <span class="model-stat-num">96.67%</span>
+                            <span class="model-stat-label">Test Accuracy</span>
+                        </div>
+                        <div class="model-stat-box">
+                            <span class="model-stat-num">205</span>
+                            <span class="model-stat-label">Images per class</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle Column: Two-Stage Architecture -->
+                <div class="bottom-card architecture-card">
+                    <h3 class="bottom-card-title">Two-Stage Architecture</h3>
+                    
+                    <div class="arch-flow">
+                        <div class="arch-node">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                            <span class="arch-node-label">Input Image</span>
+                        </div>
+                        
+                        <div class="arch-arrow">➔</div>
+
+                        <div class="arch-node gate-arch-node">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M9 12l2 2 4-4"></path></svg>
+                            <span class="arch-node-label">Binary Food Non-Food Model (V3)</span>
+                        </div>
+
+                        <div class="arch-arrow">➔</div>
+
+                        <div class="arch-node model-arch-node">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
+                            <span class="arch-node-label">EfficientNet-B0 Regional Classifier (3 Classes)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Cultural Quote Card -->
+                <div class="bottom-card quote-card-mini">
+                    <div class="quote-mark-icon">“</div>
+                    <p class="quote-mini-text">
+                        “To me, Indian food is a symphony of flavors, aromas, and colors.”
+                    </p>
+                    <span class="quote-mini-author">— Chef Vikas Khanna</span>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <div class="footer-brand-row">
+                    <div class="footer-logo">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/></svg>
+                    </div>
+                    <span class="footer-brand-name">Regional Thali Classification</span>
+                </div>
+                <p class="footer-sub-text">An MCA Academic Project</p>
+            </div>
+            
+            <div class="footer-center">
+                <span class="footer-tech-text">Built with Python • Flask • PyTorch • EfficientNet-B0</span>
+            </div>
+
+            <div class="footer-right">
+                <span class="footer-tagline">Good Food. Greater India. ❤️</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -1,14 +1,41 @@
-﻿__pycache__/
-*.pyc
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
 venv/
 .venv/
+env/
 
+# Environment variables
+.env
+.env.*
+
+# ML datasets
+data/
 Dataset1/
+food_binary/
+food_binary_split/
+food_binary_v3_expanded/
+food_binary_v4/
+nonfood/
+unknown_test/
 split_dataset/
-outputs/
 
+# Model checkpoints
+checkpoints/
 *.pth
 *.pt
+*.onnx
 
-uploads/
-.env
+# Generated outputs
+outputs/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
